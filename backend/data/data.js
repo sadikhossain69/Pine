@@ -107,4 +107,5 @@ const chats = [
     },
 ];
 
-module.exports = chats;
+// Exporting the chats array 
+module.exports = chats; 
