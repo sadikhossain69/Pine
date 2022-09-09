@@ -2,7 +2,12 @@ const express = require("express")
 const chats = require("./data/data")
 const app = express()
 const dotenv = require("dotenv")
+const cors = require("cors")
 dotenv.config()
+
+// middleware
+app.use(cors())
+app.use(express.json())
 
 // PORT
 const PORT = process.env.PORT || 5000
