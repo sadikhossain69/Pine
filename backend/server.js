@@ -3,7 +3,14 @@ const chats = require("./data/data")
 const app = express()
 const dotenv = require("dotenv")
 const cors = require("cors")
+const connectDB = require("./config/db")
+const colors = require("colors")
+
+// environment variable config
 dotenv.config()
+
+// database connect
+connectDB()
 
 // middleware
 app.use(cors())
@@ -27,5 +34,5 @@ app.get('/api/chat/:id', (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
+    console.log(`Server is running on port ${PORT}`.yellow.bold)
 })
