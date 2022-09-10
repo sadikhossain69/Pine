@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 const Signup = () => {
@@ -10,20 +10,38 @@ const Signup = () => {
     const [pic, setPic] = useState('')
     const [show, setShow] = useState(false)
     const imageStorageKey = '7da2b2086b902054d13e6c94a30f0b6a'
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
 
     const postDetails = pics => {
+        setLoading(true)
+
+        if (pics === "undefined") {
+            toast({
+                title: "Please Select An Image",
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            })
+            return
+        }
+
         const image = pics
-        const formData = new FormData()
-        formData.append('image', image)
-        const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`
-        fetch(url, {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            setPic(data.data.display_url)
-        })
+        if (image.type === 'image/jpeg' || image.type === 'image/png') {
+            const formData = new FormData()
+            formData.append('image', image)
+            const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setPic(data.data.display_url)
+                    setLoading(false)
+                })
+        }
     }
 
     const submitHandler = () => {
@@ -81,10 +99,10 @@ const Signup = () => {
                 <Input type={'file'} p={1.5} accept="image/*" onChange={(e) => postDetails(e.target.files[0])} />
             </FormControl>
             <Button
-            colorScheme={"blue"}
-            width="100%"
-            style={{marginTop: 15}}
-            onClick={submitHandler}
+                colorScheme={"blue"}
+                width="100%"
+                style={{ marginTop: 15 }}
+                onClick={submitHandler}
             >
                 Sign Up
             </Button>
