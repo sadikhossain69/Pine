@@ -13,7 +13,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const existUser = await User.findOne({ email })
 
-    if(existUser) {
+    if (existUser) {
         res.status(400)
         throw new Error("Email Already Exist")
     }
@@ -25,7 +25,7 @@ const registerUser = asyncHandler(async (req, res) => {
         pic,
     })
 
-    if(user) {
+    if (user) {
         res.status(201).json({
             _id: user._id,
             name: user.name,
@@ -35,9 +35,31 @@ const registerUser = asyncHandler(async (req, res) => {
             token: generateToken(user._id)
         })
     }
-    else{
+    else {
         res.status(400)
         throw new Error("Failed To Create A New User")
+    }
+
+})
+
+const authUser = asyncHandler(async (req, res) => {
+
+    const { email, password } = req.body
+
+    const user = await User.findOne({ email })
+
+    if (user) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            pic: user.pic,
+            token: generateToken(user._id)
+        })
+    } else {
+        res.status(401)
+        throw new Error("Invalid Email Or Password")
     }
 
 })
