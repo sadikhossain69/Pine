@@ -5,6 +5,7 @@ const dotenv = require("dotenv")
 const cors = require("cors")
 const connectDB = require("./config/db")
 const colors = require("colors")
+const userRoutes = require('./routes/userRoutes')
 
 // environment variable config
 dotenv.config()
@@ -19,20 +20,15 @@ app.use(express.json())
 // PORT
 const PORT = process.env.PORT || 5000
 
+// root api
 app.get("/", (req, res) => {
     res.send("Pine Server is running")
 })
 
-app.get('/api/chat', (req, res) => {
-    res.send(chats)
-})
+// user routes
+app.use('/api/user', userRoutes)
 
-app.get('/api/chat/:id', (req, res) => {
-    const paramsId = req.params.id
-    const singleChat = chats.find(c => c._id === paramsId)
-    res.send(singleChat)
-})
-
+// listening the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`.yellow.bold)
 })
