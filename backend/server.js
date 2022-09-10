@@ -6,6 +6,7 @@ const cors = require("cors")
 const connectDB = require("./config/db")
 const colors = require("colors")
 const userRoutes = require('./routes/userRoutes')
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware")
 
 // environment variable config
 dotenv.config()
@@ -29,6 +30,10 @@ app.get("/", (req, res) => {
 
 // user routes
 app.use('/api/user', userRoutes)
+
+// error handler
+app.use(notFound)
+app.use(errorHandler)
 
 // listening the server
 app.listen(PORT, () => {
