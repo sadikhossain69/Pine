@@ -37,7 +37,7 @@ const Signup = () => {
                     Password
                 </FormLabel>
                 <InputGroup>
-                    <Input placeholder='Enter Your Email' type={show ? 'text' : "password"} onChange={(e) => setPassword(e.target.value)} />
+                    <Input placeholder='Enter Your Password' type={show ? 'text' : "password"} onChange={(e) => setPassword(e.target.value)} />
                     <InputRightElement width={'4.5rem'}>
                         <Button onClick={() => setShow(!show)} h={'1.75rem'} size="sm">
                             {
@@ -52,7 +52,7 @@ const Signup = () => {
                     Confirm Password
                 </FormLabel>
                 <InputGroup>
-                    <Input placeholder='Enter Your Email' type={show ? 'text' : "password"} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    <Input placeholder='Enter Your Confirm Password' type={show ? 'text' : "password"} onChange={(e) => setConfirmPassword(e.target.value)} />
                     <InputRightElement width={'4.5rem'}>
                         <Button onClick={() => setShow(!show)} h={'1.75rem'} size="sm">
                             {
