@@ -1,5 +1,7 @@
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Signup = () => {
 
@@ -12,6 +14,7 @@ const Signup = () => {
     const imageStorageKey = '7da2b2086b902054d13e6c94a30f0b6a'
     const [loading, setLoading] = useState(false)
     const toast = useToast()
+    const navigate = useNavigate()
 
     const postDetails = pics => {
         setLoading(true)
@@ -57,8 +60,73 @@ const Signup = () => {
         }
     }
 
-    const submitHandler = () => {
+    const submitHandler = async () => {
+        setLoading(true);
+        if (!name || !email || !password || !confirmPassword) {
+            toast({
+                title: "Please Fill all the Feilds",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+            setLoading(false);
+            return;
+        }
+        if (password !== confirmPassword) {
+            toast({
+                title: "Passwords Do Not Match",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+            return;
+        }
 
+        try {
+
+            const config = {
+                headers: {
+                    "Content-type": 'application/json'
+                },
+            }
+
+            const { data } = await axios.post(
+                'http://localhost:5000/api/user',
+                {
+                    name,
+                    email,
+                    password,
+                    pic
+                },
+                config,
+            )
+            toast({
+                title: "Registration Successful",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+
+            localStorage.setItem('userInfo', JSON.stringify(data))
+
+            console.log(data)
+
+            setLoading(false)
+            navigate('/chats')
+        } catch (error) {
+            toast({
+                title: "Error Occured!",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+            setLoading(false);
+        }
     }
 
     return (
@@ -116,6 +184,7 @@ const Signup = () => {
                 width="100%"
                 style={{ marginTop: 15 }}
                 onClick={submitHandler}
+                isLoading={loading}
             >
                 Sign Up
             </Button>
