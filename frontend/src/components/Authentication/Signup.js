@@ -9,9 +9,21 @@ const Signup = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [pic, setPic] = useState('')
     const [show, setShow] = useState(false)
+    const imageStorageKey = '7da2b2086b902054d13e6c94a30f0b6a'
 
     const postDetails = pics => {
-
+        const image = pics
+        const formData = new FormData()
+        formData.append('image', image)
+        const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`
+        fetch(url, {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            setPic(data.data.display_url)
+        })
     }
 
     const submitHandler = () => {
@@ -66,7 +78,7 @@ const Signup = () => {
                 <FormLabel>
                     Upload Your Picture
                 </FormLabel>
-                <Input type={'file'} p={1.5} accept="image/*" onChange={(e) => postDetails(e.target.value)} />
+                <Input type={'file'} p={1.5} accept="image/*" onChange={(e) => postDetails(e.target.files[0])} />
             </FormControl>
             <Button
             colorScheme={"blue"}
