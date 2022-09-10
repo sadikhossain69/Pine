@@ -41,6 +41,19 @@ const Signup = () => {
                     setPic(data.data.display_url)
                     setLoading(false)
                 })
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false)
+                })
+        } else {
+            toast({
+                title: "Please Select An Image",
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            })
+            return
         }
     }
 
