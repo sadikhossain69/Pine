@@ -15,6 +15,8 @@ connectDB()
 
 // middleware
 app.use(cors())
+
+// to accept json data form frontend
 app.use(express.json())
 
 // PORT
