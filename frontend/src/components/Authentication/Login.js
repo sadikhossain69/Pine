@@ -71,7 +71,7 @@ const Login = () => {
                 </FormLabel>
                 <Input placeholder='Enter Your Email' defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
             </FormControl>
-            <FormControl id='password' isRequired>
+            <FormControl id='password' isRequired> 
                 <FormLabel>
                     Password
                 </FormLabel>
